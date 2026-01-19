@@ -1,9 +1,6 @@
 #!/bin/bash
 # build.sh - Render build script
 
-# Sai se houver algum erro
-set -e
-
 # Instala dependências
 pip install -r requirements.txt
 
