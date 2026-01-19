@@ -1,0 +1,36 @@
+{% extends "pages/base.html" %}
+{% load static %}
+
+{% block title %}
+    {{ historia.titulo }} | Molho da Preta
+{% endblock %}
+
+{% block content %}
+
+<section class="secao historia-detalhe">
+
+    <header class="historia-header">
+        <h1>{{ historia.titulo }}</h1>
+
+        {% if historia.protagonista %}
+            <p><strong>{{ historia.protagonista }}</strong></p>
+        {% endif %}
+
+        {% if historia.local %}
+            <p>{{ historia.local }}</p>
+        {% endif %}
+    </header>
+
+    {% if historia.imagem %}
+        <div class="historia-imagem">
+            <img src="{{ historia.imagem.url }}" alt="{{ historia.titulo }}">
+        </div>
+    {% endif %}
+
+    <article class="historia-texto">
+        {{ historia.texto|linebreaks }}
+    </article>
+
+</section>
+
+{% endblock %}

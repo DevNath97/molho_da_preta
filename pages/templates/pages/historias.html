@@ -1,0 +1,110 @@
+{% extends "pages/base.html" %}
+{% load static %}
+
+{% block title %}
+    Histórias | Molho da Preta
+{% endblock %}
+
+{% block content %}
+
+<!-- ==================================================
+     HERO EDITORIAL / INTRODUÇÃO DA PÁGINA
+================================================== -->
+<header class="secao-header">
+    <h1>Histórias que alimentam</h1>
+    <p>
+        Mulheres negras que transformam a gastronomia em
+        resistência, afeto, memória e futuro.
+    </p>
+</header>
+
+<!-- ==================================================
+     LISTAGEM DE HISTÓRIAS
+================================================== -->
+<section class="secao historias">
+    <div class="historias-lista">
+
+        {% if historias %}
+            {% for historia in historias %}
+
+                <!-- ==================================================
+                     CARD DE HISTÓRIA
+                ================================================== -->
+                <article class="historia-card">
+
+                    <!-- =========================
+                         IMAGEM DA HISTÓRIA
+                    ========================== -->
+                    <div class="imagem">
+                        {% if historia.imagem %}
+                            <img
+                                src="{{ historia.imagem.url }}"
+                                alt="História de {{ historia.protagonista }} – {{ historia.titulo }}"
+                                loading="lazy"
+                            >
+                        {% else %}
+                            <img
+                                src="{% static 'img/placeholder-historia.jpg' %}"
+                                alt="Imagem ilustrativa da história {{ historia.titulo }}"
+                                loading="lazy"
+                            >
+                        {% endif %}
+                    </div>
+
+                    <!-- =========================
+                         CONTEÚDO DO CARD
+                    ========================== -->
+                    <div class="historia-card-conteudo">
+
+                        <!-- TÍTULO -->
+                        <h2>
+                            {{ historia.titulo }}
+                        </h2>
+
+                        <!-- META INFORMAÇÕES -->
+                        <div class="historia-meta">
+                            <span class="protagonista">
+                                {{ historia.protagonista }}
+                            </span>
+
+                            {% if historia.local %}
+                                <span class="local">
+                                    {{ historia.local }}
+                                </span>
+                            {% endif %}
+                        </div>
+
+                        <!-- RESUMO -->
+                        {% if historia.resumo %}
+                            <p>
+                                {{ historia.resumo|truncatechars:140 }}
+                            </p>
+                        {% endif %}
+
+                        <!-- LINK PARA DETALHE -->
+                        <a
+                            href="{% url 'historias_detalhe' historia.slug %}"
+                            aria-label="Ler a história {{ historia.titulo }}"
+                        >
+                            Ler história →
+                        </a>
+
+                    </div>
+                </article>
+
+            {% endfor %}
+        {% else %}
+
+            <!-- =========================
+                 ESTADO VAZIO
+            ========================== -->
+            <p style="text-align: center;">
+                Nenhuma história publicada ainda.
+            </p>
+
+        {% endif %}
+
+    </div>
+</section>
+
+{% endblock %}

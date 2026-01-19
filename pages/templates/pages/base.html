@@ -1,0 +1,133 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+
+    <!-- ============================
+         METADADOS BÁSICOS
+    ============================ -->
+    <meta charset="UTF-8">
+    <meta name="author" content="Molho da Preta">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- ============================
+         SEO (EDITÁVEL POR PÁGINA)
+    ============================ -->
+    {% block meta_description %}
+    <meta name="description"
+          content="Molho da Preta – receitas afro-brasileiras, ancestralidade e histórias de protagonismo feminino.">
+    {% endblock %}
+
+    <meta name="theme-color" content="#FAF7F3">
+
+    <!-- ============================
+         OPEN GRAPH
+    ============================ -->
+    <meta property="og:title" content="Molho da Preta">
+    <meta property="og:description"
+          content="Receitas afro-brasileiras e histórias de mulheres negras na gastronomia.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="{% static 'images/og-image.jpg' %}">
+    <meta property="og:locale" content="pt_BR">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+
+    <!-- ============================
+         TÍTULO
+    ============================ -->
+    <title>{% block title %}Molho da Preta{% endblock %}</title>
+
+    <!-- ============================
+         GOOGLE FONTS
+    ============================ -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Playfair+Display:wght@600&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- ============================
+         FAVICON
+    ============================ -->
+    <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}">
+
+    <!-- ============================
+         CSS
+    ============================ -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+</head>
+
+<body class="site-body">
+
+    <!-- ============================
+         HEADER
+    ============================ -->
+    <header class="site-header" role="banner">
+        <div class="container">
+
+            <!-- Logo (não é H1 global) -->
+            <div class="logo">
+                <a href="{% url 'home' %}">Molho da Preta</a>
+            </div>
+
+            <!-- Botão Menu Mobile -->
+            <button
+                class="menu-toggle"
+                aria-label="Abrir menu"
+                aria-expanded="false"
+                aria-controls="menu-lista"
+            >
+                ☰
+            </button>
+
+            <!-- Navegação -->
+            <nav
+                class="menu"
+                role="navigation"
+                aria-label="Menu principal"
+            >
+                <ul id="menu-lista">
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    <li><a href="{% url 'receitas' %}">Receitas</a></li>
+                    <li><a href="{% url 'historias' %}">Histórias</a></li>
+                    <li><a href="{% url 'sobre' %}">Sobre</a></li>
+                </ul>
+            </nav>
+
+        </div>
+    </header>
+
+    <!-- ============================
+         CONTEÚDO PRINCIPAL
+    ============================ -->
+    <main
+        id="conteudo-principal"
+        role="main"
+        class="site-main"
+        tabindex="-1"
+    >
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- ============================
+         FOOTER
+    ============================ -->
+    <footer class="site-footer" role="contentinfo">
+        <div class="container">
+            <p>
+                © {% now "Y" %} Molho da Preta ·
+                Culinária, ancestralidade e protagonismo
+            </p>
+        </div>
+    </footer>
+
+    <!-- ============================
+         JS
+    ============================ -->
+    <script src="{% static 'js/main.js' %}"></script>
+
+</body>
+</html>

@@ -1,0 +1,96 @@
+{% extends 'pages/base.html' %}
+{# Herda toda a estrutura do arquivo base.html (header, footer, CSS, JS) #}
+
+{% load static %}
+{# Permite usar a tag {% static %} para carregar imagens e arquivos estáticos #}
+
+{% block title %}Home | Molho da Preta{% endblock %}
+{# Define o título da página (aba do navegador) #}
+
+{% block content %}
+{# Início do conteúdo específico da página Home #}
+
+<!-- ============================
+     HERO / BANNER PRINCIPAL
+     (APENAS IMAGEM DE FUNDO)
+============================ -->
+<section class="hero">
+    <!--
+        Hero propositalmente sem textos
+        A imagem de background comunica o conceito
+    -->
+</section>
+
+<!-- ============================
+     RECEITAS EM DESTAQUE
+============================ -->
+<section class="secao">
+    <!-- Seção que agrupa receitas em destaque -->
+
+    <header class="secao-header">
+        <h3>Receitas em destaque</h3>
+        <p>Sabores que atravessam gerações</p>
+    </header>
+
+    <div class="grid-cards">
+        <!-- Grid com até 8 cards dinâmicos (4x2 no desktop) -->
+
+        {% for receita in receitas %}
+        <article class="card">
+            <a href="{% url 'receita_detalhe' receita.slug %}">
+                <img src="{{ receita.imagem.url }}"
+                     alt="{{ receita.titulo }}">
+                <div class="card-conteudo">
+                    <h4>{{ receita.titulo }}</h4>
+                    <p>
+                        Tempo: {{ receita.tempo_preparo }} min ·
+                        {{ receita.descricao_curta }}
+                    </p>
+                </div>
+            </a>
+        </article>
+        {% empty %}
+        <!-- Caso não existam receitas cadastradas -->
+        <p>Nenhuma receita disponível no momento.</p>
+        {% endfor %}
+
+    </div>
+</section>
+
+<!-- ============================
+     HISTÓRIAS QUE INSPIRAM
+============================ -->
+<section class="secao secao-destaque">
+    <header class="secao-header">
+        <h3>Histórias que inspiram</h3>
+        <p>Mulheres negras que transformam a gastronomia</p>
+    </header>
+
+    <article class="historia">
+        <h4>Da cozinha de casa ao empreendedorismo</h4>
+        <p>
+            Conheça a trajetória de mulheres que transformaram
+            saberes ancestrais em negócios de sucesso.
+        </p>
+
+        <a href="{% url 'historias' %}" class="btn-primario">
+            Ler histórias
+        </a>
+    </article>
+</section>
+
+<!-- ============================
+     CHAMADA PARA A COMUNIDADE
+============================ -->
+<section class="secao comunidade">
+    <h3>Faça parte da nossa comunidade</h3>
+
+    <p>
+        Compartilhe sua história, sua receita e fortaleça
+        essa rede de afeto, cultura e sabor.
+    </p>
+
+</section>
+
+{% endblock %}
+{# Final do bloco de conteúdo da Home #}

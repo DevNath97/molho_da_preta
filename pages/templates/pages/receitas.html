@@ -1,0 +1,73 @@
+{% extends "pages/base.html" %}
+{% load static %}
+
+{% block title %}
+    {{ categoria_nome|default:"Receitas" }} | Molho da Preta
+{% endblock %}
+
+{% block content %}
+
+<section class="secao">
+
+    <!-- Cabeçalho da seção -->
+    <header class="secao-header">
+        <h3>
+            {{ categoria_nome|default:"Receitas" }}
+        </h3>
+        <p>Saberes que atravessam gerações</p>
+    </header>
+
+    <!-- Grid de cards -->
+    <div class="grid-cards">
+
+        {% for receita in receitas %}
+
+            <article class="card">
+
+                <!-- Link para página de detalhe -->
+                <a href="{% url 'receita_detalhe' receita.slug %}">
+
+                    <!-- Imagem da receita -->
+                    {% if receita.imagem %}
+                        <img
+                            src="{{ receita.imagem.url }}"
+                            alt="{{ receita.titulo }}"
+                            loading="lazy"
+                        >
+                    {% else %}
+                        <img
+                            src="{% static 'img/placeholder-receita.jpg' %}"
+                            alt="Imagem não disponível"
+                            loading="lazy"
+                        >
+                    {% endif %}
+
+                    <!-- Conteúdo do card -->
+                    <div class="card-conteudo">
+                        <h4>{{ receita.titulo }}</h4>
+
+                        <p>
+                            <strong>Tempo:</strong>
+                            {{ receita.tempo_preparo }} min ·
+                            {{ receita.descricao_curta }}
+                        </p>
+                    </div>
+
+                </a>
+
+            </article>
+
+        {% empty %}
+
+            <!-- Caso não existam receitas -->
+            <p class="texto-vazio">
+                Nenhuma receita encontrada.
+            </p>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+{% endblock %}

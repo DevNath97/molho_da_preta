@@ -1,0 +1,35 @@
+{% extends "pages/base.html" %}
+{% load static %}
+
+{% block title %}
+{% if pagina %}
+{{ pagina.titulo }} | Molho da Preta
+{% else %}
+Sobre | Molho da Preta
+{% endif %}
+{% endblock %}
+
+{% block meta_description %}
+<meta name="description" content="Conheça o Molho da Preta, um espaço de ancestralidade, culinária afro-brasileira e protagonismo feminino.">
+{% endblock %}
+
+{% block content %}
+<section class="sobre-section">
+    <div class="sobre-overlay">
+        <div class="sobre-card">
+
+            <header class="sobre-header">
+                <h1 class="sobre-titulo">Sobre o Molho da Preta</h1>
+                <p class="sobre-manifesto">
+                    Culinária como memória, afeto e resistência.
+                </p>
+            </header>
+
+            <article class="sobre-conteudo">
+                {{ pagina.conteudo|linebreaks }}
+            </article>
+
+        </div>
+    </div>
+</section>
+{% endblock %}
