@@ -1,11 +1,25 @@
 #!/bin/bash
-# build.sh - Render build script
 
-# Instala dependências
+# ==================================================
+# build.sh - Script de build para Render
+# ==================================================
+
+# Saia se algum comando falhar
+set -e
+
+echo "=== Iniciando build do projeto Django ==="
+
+# Atualiza dependências do pip
+echo "Instalando dependências..."
+pip install --upgrade pip
 pip install -r requirements.txt
 
-# Executa migrações do banco
-python manage.py migrate
+# Rodar migrations
+echo "Aplicando migrations..."
+python manage.py migrate --noinput
 
-# Coleta arquivos estáticos
+# Coletar arquivos estáticos
+echo "Coletando arquivos estáticos..."
 python manage.py collectstatic --noinput
+
+echo "=== Build finalizado com sucesso! ==="
