@@ -271,18 +271,57 @@ body {
 }
 
 /* ==================================================
-   HISTÓRIA — DETALHE
+   HISTÓRIA — DETALHE (AJUSTADO PARA LEITURA)
 ================================================== */
-.historia-detalhe,
+.historia-detalhe {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 4rem 1.5rem;
+}
+
+/* Título */
+.historia-detalhe h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.6rem;
+    line-height: 1.3;
+    margin-bottom: 1.2rem;
+}
+
+/* Meta */
+.historia-meta {
+    display: flex;
+    gap: 1rem;
+    font-size: .95rem;
+    color: #6b6b6b;
+    margin-bottom: 2.5rem;
+}
+
+/* Imagem */
+.historia-detalhe img {
+    width: 100%;
+    max-height: 600px;
+    object-fit: cover;
+    border-radius: 18px;
+    margin-bottom: 1.5rem;
+}
+
+/* Texto */
+.historia-detalhe p {
+    font-size: 1.05rem;
+    line-height: 1.9;
+    color: #3f3f3f;
+    margin-bottom: 1.6rem;
+}
+
+/* ==================================================
+   RECEITA — DETALHE
+================================================== */
 .receita-detalhe {
     max-width: 900px;
     margin: 0 auto;
     padding: 4rem 1.5rem;
 }
 
-/* ==================================================
-   RECEITA — DETALHE
-================================================== */
 .receita-hero img {
     width: 100%;
     max-width: 720px;
@@ -333,5 +372,18 @@ body {
 
     .historias-header h1 {
         font-size: 2rem;
+    }
+
+    /* HISTÓRIA DETALHE */
+    .historia-detalhe {
+        padding: 2.5rem 1.2rem;
+    }
+
+    .historia-detalhe h1 {
+        font-size: 2rem;
+    }
+
+    .historia-detalhe img {
+        max-height: 280px;
     }
 }

@@ -10,22 +10,26 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
+import os
 from pathlib import Path
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
+# ==================================================
+# SECURITY
+# ==================================================
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-qt*q#92qydwt+8(oh1hg)-#buon69s@%n11d91e#30zx4t#fq9'
+# Get SECRET_KEY from environment variable, fallback for development
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-dev-key')
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# Get DEBUG from environment variable (True/False), default True
+DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = []
+# Get allowed hosts from environment variable, comma-separated
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost').split(',')
 
 
 # ==================================================
@@ -45,6 +49,8 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    # WhiteNoise middleware para servir arquivos estáticos em produção
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -58,7 +64,7 @@ ROOT_URLCONF = 'config.urls'
 
 
 # ==================================================
-# TEMPLATES (ALTERAÇÃO MÍNIMA AQUI)
+# TEMPLATES
 # ==================================================
 
 TEMPLATES = [
@@ -86,11 +92,12 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # DATABASE
 # ==================================================
 
+# Use DATABASE_URL environment variable (Render PostgreSQL)
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(
+        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
+        conn_max_age=600,
+    )
 }
 
 
@@ -133,9 +140,16 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+# Diretórios onde ficam seus arquivos estáticos de desenvolvimento
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
+
+# Diretório para onde collectstatic vai colocar os arquivos prontos para produção
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+# WhiteNoise storage (gzip + cache busting)
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 # ==================================================
