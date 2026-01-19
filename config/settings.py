@@ -27,8 +27,11 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-dev-key')
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
 # Allowed hosts: lista de hosts permitidos
-# Em produção, defina ALLOWED_HOSTS na variável de ambiente
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
+# Inclui localhost, IP local e o domínio do Render
+ALLOWED_HOSTS = os.environ.get(
+    'ALLOWED_HOSTS',
+    'localhost,127.0.0.1,molho-da-preta.onrender.com'
+).split(',')
 
 # ==================================================
 # APPLICATION DEFINITION
@@ -45,8 +48,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    # WhiteNoise para servir arquivos estáticos em produção
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # serve arquivos estáticos
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -80,10 +82,9 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # ==================================================
 # DATABASE
 # ==================================================
-# Usa DATABASE_URL em produção (ex: Render PostgreSQL)
 DATABASES = {
     'default': dj_database_url.config(
-        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",  # fallback local
+        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
         conn_max_age=600,
     )
 }
@@ -110,9 +111,9 @@ USE_TZ = True
 # STATIC FILES
 # ==================================================
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / 'static']  # arquivos de desenvolvimento
-STATIC_ROOT = BASE_DIR / 'staticfiles'    # arquivos coletados para produção
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'  # gzip + cache busting
+STATICFILES_DIRS = [BASE_DIR / 'static']
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # ==================================================
 # MEDIA FILES (UPLOAD)
@@ -132,21 +133,10 @@ SECURE_SSL_REDIRECT = os.environ.get('SECURE_SSL_REDIRECT', 'False') == 'True'
 SESSION_COOKIE_SECURE = os.environ.get('SESSION_COOKIE_SECURE', 'False') == 'True'
 CSRF_COOKIE_SECURE = os.environ.get('CSRF_COOKIE_SECURE', 'False') == 'True'
 
-# HSTS (HTTP Strict Transport Security)
-SECURE_HSTS_SECONDS = int(os.environ.get('SECURE_HSTS_SECONDS', 31536000))  # 1 ano
+SECURE_HSTS_SECONDS = int(os.environ.get('SECURE_HSTS_SECONDS', 31536000))
 SECURE_HSTS_INCLUDE_SUBDOMAINS = os.environ.get('SECURE_HSTS_INCLUDE_SUBDOMAINS', 'True') == 'True'
 SECURE_HSTS_PRELOAD = os.environ.get('SECURE_HSTS_PRELOAD', 'True') == 'True'
 
-# Proteção contra clickjacking
 X_FRAME_OPTIONS = 'DENY'
-
-# Outras configurações de segurança opcionais
 SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_REFERRER_POLICY = 'same-origin'
-
-# ==================================================
-# CONFIGURAÇÕES ADICIONAIS (opcionais)
-# ==================================================
-# Por exemplo, se quiser log ou email de erros:
-# LOGGING = { ... }
-# EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND', 'django.core.mail.backends.console.EmailBackend')
